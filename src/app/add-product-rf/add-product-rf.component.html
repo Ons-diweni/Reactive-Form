@@ -1,0 +1,63 @@
+<form [formGroup]="myForm">
+    <div class="container p-5 my-5 border">
+
+        <form formGroupName="product">
+            <div class="mb-3">
+                <label class="form-label"> Id Produit </label>
+                <input formControlName="idProduit" class="form-control">
+                <small class="alert alert-danger" [hidden]="!myForm.get('product.idProduit')?.errors?.['required'] || myForm.get('product')?.get('idProduit')?.untouched ">  This field is required </small>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Code </label>
+                <input formControlName="code" class="form-control">
+                <small class="alert alert-danger" *ngIf="myForm.get('product')?.get('code')?.errors?.['required'] && myForm.get('product')?.get('code')?.touched"> This field is required </small>
+                <small class="alert alert-danger" *ngIf="myForm.get('product')?.get('code')?.errors?.['pattern']"> Code is alphanumerical only And must be 8 characters long </small>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Libelle </label>
+                <input formControlName="libelle" class="form-control">
+                <small class="alert alert-danger" *ngIf="myForm.get('product')?.get('libelle')?.errors?.['required'] && myForm.get('product')?.get('libelle')?.touched"> This field is required </small>
+                <small class="alert alert-danger" *ngIf="myForm.get('product')?.get('libelle')?.errors?.['pattern']"> Wording must be at least 3 characters long </small>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Prix unitaire </label>
+                <input formControlName="prixUnitaire" class="form-control">
+                <small class="alert alert-danger" *ngIf="myForm.get('product')?.get('prixUnitaire')?.errors?.['required'] && myForm.get('product')?.get('prixUnitaire')?.touched"> This field is required </small>
+                <small class="alert alert-danger" *ngIf="myForm.get('product')?.get('prixUnitaire')?.errors?.['pattern']"> This field accept Only numbers </small>
+            </div>
+            <br>
+            <button [disabled]="myForm.get('product')?.invalid" [hidden]="myForm.get('product')?.valid" class="btn btn-primary"> Suivant </button>
+
+        </form>
+
+        <Form [hidden]="myForm.get('product')?.invalid" formGroupName="detailsProduct">
+            <div class="mb-3">
+                <label class="form-label"> Id Details Produit </label>
+                <input formControlName="idDetailProduit" class="form-control">
+                <small class="alert alert-danger" *ngIf="myForm.get('detailsProduct')?.get('idDetailProduit')?.errors?.['required']  && myForm.get('detailsProduct')?.get('idDetailProduit')?.touched">  This field is required </small>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Date crèation </label>
+                <input type="date" formControlName="dateCreation" class="form-control">
+                <small class="alert alert-danger" *ngIf="myForm.get('detailsProduct')?.get('dateCreation')?.errors?.['required']  && myForm.get('detailsProduct')?.get('dateCreation')?.touched">  This field is required </small>
+
+            </div>
+            <div [hidden]="myForm.get('detailsProduct')?.get('dateCreation')?.invalid" class="mb-3">
+                <label class="form-label"> Date derniére modification </label>
+                <input type="date" formControlName="dateDerniereModif" class="form-control">
+                <small class="alert alert-danger" *ngIf="myForm.get('detailsProduct')?.get('dateDerniereModif')?.errors?.['required']  && myForm.get('detailsProduct')?.get('dateDerniereModif')?.touched">  This fiels is required </small>
+
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Catègorie </label>
+                <select formControlName="categorie" class="form-control" name="categorie">
+                <option> Electromenager </option>
+                <option> Alimentaire </option>
+                <option> Quincaillerie </option>
+                </select>
+                <small class="alert alert-danger" *ngIf="myForm.get('detailsProduct')?.get('categorie')?.errors?.['required']  && myForm.get('detailsProduct')?.get('categorie')?.touched">  this field is required </small>
+            </div>
+        </Form>
+        <button [hidden]="myForm.get('product')?.invalid || myForm.get('detailsProduct')?.invalid " type="button" class="btn btn-primary" (click)="addProduct ()"> Ajouter </button>
+    </div>
+</form>
